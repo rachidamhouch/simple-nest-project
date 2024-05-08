@@ -11,7 +11,7 @@ export class JwtAuthGuard implements CanActivate{
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
     if (request.cookies.jwt) {
-      request.user = this.jwtService.verify(request.cookies.jwt);
+      request.user = this.jwtService.verify(request.cookies.jwt).user;
     } else {
       response.send({message: 'Unauthorized'});
       return false;
