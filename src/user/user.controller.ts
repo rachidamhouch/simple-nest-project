@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post, Req, Res, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateUserDto } from './dtos/CraeteUser.dto';
 import { UserModule } from './user.module';
 import { UserService } from './user.service';
 import { Response, Request } from 'express';
+import { JwtAuthGuard } from './guards/auth.guard';
 
 
 @Controller('user')
@@ -20,10 +21,12 @@ export class UserController {
         return await this.userService.signin(user, res);
     }
     @Get('whoami')
+    @UseGuards(JwtAuthGuard)
     async whoami(@Req() req: Request)
     {
         return await this.userService.whoami(req);
     }
+
     @Post('logout')
     logout(@Res({passthrough: true}) res: Response)
     {

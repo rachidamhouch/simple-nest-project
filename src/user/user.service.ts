@@ -41,10 +41,10 @@ export class UserService {
     async whoami(req: Request)
     {
         try{
-            return await this.jwtService.verify(req.cookies['jwt']).user;
+            return await this.jwtService.verify(req.cookies.jwt).user;
         }catch
         {
-            throw new UnauthorizedException("You have to log in");
+            throw new UnauthorizedException("Ops");
         }
         
     }
