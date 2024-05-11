@@ -12,6 +12,7 @@ export class ChatGateway {
       this.clients.set(client.id, client);
       client.emit('message', "Welcome^^");
       client.on('disconnect', () => {
+        this.clients.delete(client.id);
         console.log(`Client disconnected with id: ${client.id}`);
       });
     });
@@ -19,7 +20,6 @@ export class ChatGateway {
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any) {
     client.emit('message', "Hello, Im good thanks!");
-    console.log(this.clients);
   }
 
   sendMessageToClient(clientId: string, message: string) {
@@ -33,5 +33,10 @@ export class ChatGateway {
       console.log(`Client with id ${clientId} not found.`);
       return `Client with id ${clientId} not found.`;
     }
+  }
+  sendToAll(msg: string)
+  {
+    this.server.emit("message", msg);
+    return "Done";
   }
 }
